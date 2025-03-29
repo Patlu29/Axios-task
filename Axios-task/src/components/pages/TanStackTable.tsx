@@ -2,6 +2,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import axios from "axios";
@@ -12,7 +13,7 @@ interface HPcharacters {
   Gender: string;
   DOB: string | number;
   ActorName: string;
-  Image: any;
+  Image: string;
 }
 const columnHelper = createColumnHelper<HPcharacters>();
 
@@ -45,6 +46,7 @@ function HPcharactersTable() {
   const [data, setData] = useState<HPcharacters[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sorting, setSorting] = useState<any>([]);
 
   useEffect(() => {
     axios
@@ -77,7 +79,10 @@ function HPcharactersTable() {
   const table = useReactTable({
     data,
     columns,
+    state: { sorting },
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
   });
 
   if (loading) return <div>Loading....</div>;
@@ -94,14 +99,19 @@ function HPcharactersTable() {
               {headerObject.headers.map((header) => (
                 <th
                   key={header.id}
-                  style={{ border: "1px solid black", padding: "20px" }}
+                  style={{ border: "1px solid black", padding: "10px" }}
                 >
-                  {
-                    flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    ) as React.ReactNode
-                  }
+                  <div
+                    onClick={header.column.getToggleSortingHandler()}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {
+                      flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      ) as React.ReactNode
+                    }
+                  </div>
                 </th>
               ))}
             </tr>
@@ -111,7 +121,7 @@ function HPcharactersTable() {
               {row.getVisibleCells().map((cells) => (
                 <td
                   key={cells.id}
-                  style={{ border: "1px solid black", padding: "40px" }}
+                  style={{ border: "1px solid black", padding: "20px" }}
                   align="left"
                 >
                   {
