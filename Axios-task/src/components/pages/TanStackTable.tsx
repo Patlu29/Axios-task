@@ -2,6 +2,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -47,6 +48,7 @@ function HPcharactersTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sorting, setSorting] = useState<any>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   useEffect(() => {
     axios
@@ -79,10 +81,12 @@ function HPcharactersTable() {
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
+    state: { sorting, globalFilter },
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   if (loading) return <div>Loading....</div>;
@@ -93,6 +97,16 @@ function HPcharactersTable() {
   return (
     <>
       <div style={{ justifyItems: "center" }}>
+        <div style={{ margin: "20px" }}>
+          <label htmlFor="search">Search Characters: </label>
+          <input
+            type="search"
+            name="search"
+            value={globalFilter ?? ""}
+            onChange={(filter) => setGlobalFilter(filter.target.value)}
+            placeholder="Search characters.."
+          />
+        </div>
         <table style={{ border: "1px solid black" }}>
           {table.getHeaderGroups().map((headerObject) => (
             <tr key={headerObject.id}>
