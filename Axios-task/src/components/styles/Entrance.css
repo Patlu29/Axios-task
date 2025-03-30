@@ -1,0 +1,23 @@
+.container {
+  justify-items: center;
+}
+.entrance-container {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+.HPcharactersImg,
+.spellsImg {
+  width: 350px;
+  height: 250px;
+  cursor: pointer;
+}
+.HPtable-container,
+.spellsTable-container {
+  border-radius: 10px;
+  backdrop-filter: blur(20px);
+  padding: 20px 5px 5px 5px;
+  justify-items: center;
+  box-shadow: 0 0 25px rgb(70, 60, 60);
+  font-size: larger;
+}

@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../styles/TanStackTable.css";
+import "../styles/Table.css";
 
 interface HPcharacters {
   Name: string;
@@ -104,9 +104,9 @@ function HPcharactersTable() {
   return (
     <>
       <div style={{ width: "550px" }} className="container">
-        <h2 style={{ textAlign: "center", margin: "0" }}>
+        <h1 style={{ textAlign: "center", margin: "0" }}>
           Harry potter Characters
-        </h2>
+        </h1>
         <div
           style={{
             display: "flex",
@@ -187,7 +187,7 @@ function HPcharactersTable() {
             </tr>
           ))}
         </table>
-        <div style={{ position: "relative", left: "17rem", margin: "10px" }}>
+        <div style={{ position: "relative", left: "9rem", margin: "10px" }}>
           <button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
