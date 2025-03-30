@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "HarryPotter";
+  src: url("/home/PrakashRajan/Documents/Axios-task/Axios-task/src/assets/fonts/HARRYP__.TTF")
+    format("truetype");
+}
+body {
+  background-image: url("/home/PrakashRajan/Documents/Axios-task/Axios-task/src/assets/images/HpPg.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  font-family: "HarryPotter", serif;
+  font-size: 25px;
+}
+
+.container {
+  padding: 0 20px 0 20px;
+}
+.table-container {
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 25px rgb(70, 60, 60);
+  border-radius: 10px;
+}
+.table-head {
+  padding: "0 5px 0 5px";
+}
+.table-row {
+  border-top: 1px solid black;
+}
+.table-top {
+  gap: 50px;
+}
+input {
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgb(70, 60, 60);
+  width: 150px;
+  height: 30px;
+}
+
+input::placeholder {
+  color: whitesmoke;
+  opacity: 1;
+}
+.page-button {
+  border: none;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgb(70, 60, 60);
+  border-radius: 5px;
+  font-size: 20px;
+  margin-left: 10px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+.item-selector,
+.selector-options {
+  background-color: transparent;
+  border: none;
+  box-shadow: 0 0 10px rgb(70, 60, 60);
+  border-radius: 5px;
+  padding: 5px;
+}

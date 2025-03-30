@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import "../styles/TanStackTable.css";
 
 interface HPcharacters {
   Name: string;
@@ -41,7 +42,6 @@ const columns = [
     header: () => <p>Image</p>,
   }),
 ];
-
 
 function HPcharactersTable() {
   const [data, setData] = useState<HPcharacters[]>([]);
@@ -101,17 +101,19 @@ function HPcharactersTable() {
   if (loading) return <div>Loading....</div>;
   if (error) return <div>Error: {error}</div>;
 
-
   return (
     <>
-      <div style={{ width: "550px", margin: "0 50px 50px" }}>
-        <h2 style={{ textAlign: "center" }}>Harry potter Characters</h2>
+      <div style={{ width: "550px" }} className="container">
+        <h2 style={{ textAlign: "center", margin: "0" }}>
+          Harry potter Characters
+        </h2>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             margin: "20px",
           }}
+          className="table-top"
         >
           <div>
             <label htmlFor="search">Search Characters: </label>
@@ -121,6 +123,7 @@ function HPcharactersTable() {
               value={globalFilter ?? ""}
               onChange={(filter) => setGlobalFilter(filter.target.value)}
               placeholder="Search characters.."
+              className="input-search"
             />
           </div>
           <div>
@@ -130,23 +133,25 @@ function HPcharactersTable() {
               onChange={(size) => {
                 table.setPageSize(Number(size.target.value));
               }}
+              className="item-selector"
             >
               {[5, 10, 15, 20].map((pgSize) => (
-                <option key={pgSize} value={pgSize}>
+                <option
+                  key={pgSize}
+                  value={pgSize}
+                  className="selector-options"
+                >
                   {pgSize}
                 </option>
               ))}
             </select>
           </div>
         </div>
-        <table style={{ border: "1px solid black" }}>
+        <table className="table-container">
           {table.getHeaderGroups().map((headerObject) => (
             <tr key={headerObject.id}>
               {headerObject.headers.map((header) => (
-                <th
-                  key={header.id}
-                  style={{ border: "1px solid black", padding: "10px" }}
-                >
+                <th key={header.id} className="table-head">
                   <div
                     onClick={header.column.getToggleSortingHandler()}
                     style={{ cursor: "pointer" }}
@@ -167,8 +172,9 @@ function HPcharactersTable() {
               {row.getVisibleCells().map((cells) => (
                 <td
                   key={cells.id}
-                  style={{ border: "1px solid black", padding: "10px" }}
+                  style={{ padding: "10px" }}
                   align="left"
+                  className="table-row"
                 >
                   {
                     flexRender(
@@ -181,16 +187,18 @@ function HPcharactersTable() {
             </tr>
           ))}
         </table>
-        <div style={{ position: "absolute", right: "33vw", margin: "10px" }}>
+        <div style={{ position: "relative", left: "17rem", margin: "10px" }}>
           <button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
+            className="page-button"
           >
             --
           </button>
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="page-button"
           >
             -
           </button>
@@ -206,18 +214,21 @@ function HPcharactersTable() {
                   : 0;
                 table.setPageIndex(page);
               }}
+              style={{ width: "40px", height: "25px", marginLeft: "10px" }}
             />
             <span>of {table.getPageCount()}</span>
           </span>
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="page-button"
           >
             +
           </button>
           <button
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
+            className="page-button"
           >
             ++
           </button>
