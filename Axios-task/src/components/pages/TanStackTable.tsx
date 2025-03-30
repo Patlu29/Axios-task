@@ -42,7 +42,6 @@ const columns = [
   }),
 ];
 
-console.log(columns, "my columns");
 
 function HPcharactersTable() {
   const [data, setData] = useState<HPcharacters[]>([]);
@@ -102,7 +101,6 @@ function HPcharactersTable() {
   if (loading) return <div>Loading....</div>;
   if (error) return <div>Error: {error}</div>;
 
-  console.log(table.getRowModel(), "table columns");
 
   return (
     <>
