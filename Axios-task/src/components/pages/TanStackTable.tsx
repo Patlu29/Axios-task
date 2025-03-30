@@ -3,6 +3,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -82,9 +83,18 @@ function HPcharactersTable() {
     data,
     columns,
     state: { sorting, globalFilter },
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
   });
@@ -96,16 +106,40 @@ function HPcharactersTable() {
 
   return (
     <>
-      <div style={{ justifyItems: "center" }}>
-        <div style={{ margin: "20px" }}>
-          <label htmlFor="search">Search Characters: </label>
-          <input
-            type="search"
-            name="search"
-            value={globalFilter ?? ""}
-            onChange={(filter) => setGlobalFilter(filter.target.value)}
-            placeholder="Search characters.."
-          />
+      <div style={{ width: "550px", margin: "0 50px 50px" }}>
+        <h2 style={{ textAlign: "center" }}>Harry potter Characters</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            margin: "20px",
+          }}
+        >
+          <div>
+            <label htmlFor="search">Search Characters: </label>
+            <input
+              type="search"
+              name="search"
+              value={globalFilter ?? ""}
+              onChange={(filter) => setGlobalFilter(filter.target.value)}
+              placeholder="Search characters.."
+            />
+          </div>
+          <div>
+            <span>Items per page: </span>
+            <select
+              value={table.getState().pagination.pageSize}
+              onChange={(size) => {
+                table.setPageSize(Number(size.target.value));
+              }}
+            >
+              {[5, 10, 15, 20].map((pgSize) => (
+                <option key={pgSize} value={pgSize}>
+                  {pgSize}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <table style={{ border: "1px solid black" }}>
           {table.getHeaderGroups().map((headerObject) => (
@@ -135,7 +169,7 @@ function HPcharactersTable() {
               {row.getVisibleCells().map((cells) => (
                 <td
                   key={cells.id}
-                  style={{ border: "1px solid black", padding: "20px" }}
+                  style={{ border: "1px solid black", padding: "10px" }}
                   align="left"
                 >
                   {
@@ -149,6 +183,47 @@ function HPcharactersTable() {
             </tr>
           ))}
         </table>
+        <div style={{ position: "absolute", right: "33vw", margin: "10px" }}>
+          <button
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            --
+          </button>
+          <button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            -
+          </button>
+          <span>
+            <input
+              type="number"
+              min={1}
+              max={table.getPageCount()}
+              value={table.getState().pagination.pageIndex + 1}
+              onChange={(value) => {
+                const page = value.target.value
+                  ? Number(value.target.value) - 1
+                  : 0;
+                table.setPageIndex(page);
+              }}
+            />
+            <span>of {table.getPageCount()}</span>
+          </span>
+          <button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            +
+          </button>
+          <button
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            ++
+          </button>
+        </div>
       </div>
     </>
   );
