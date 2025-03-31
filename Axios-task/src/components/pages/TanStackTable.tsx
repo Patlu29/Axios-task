@@ -71,7 +71,6 @@ function HPcharactersTable() {
 
         setData(filteredData);
         setLoading(false);
-        console.log(filteredData);
       })
       .catch((err) => {
         setError(err.message);
